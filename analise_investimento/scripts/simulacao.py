@@ -23,7 +23,6 @@ def sharpe_ratio(retornos_d, rf=0.0):
     return (sr * np.sqrt(ANNUAL_DAYS))
 
 def sortino_ratio(retornos_d, rf=0.0):
-    # usa downside deviation (diário) e annualiza
     downside = retornos_d[retornos_d < 0]
     if len(downside) == 0:
         return np.nan
@@ -97,12 +96,10 @@ def simular_valor_carteira(pesos, dados_precos, capital=capital_inicial, rebalan
       - holdings_df (DataFrame diário com valor por ativo)  (útil p/ rebalance)
     """
     ativos = dados_precos.columns
-    # quantidade inicial de "unidades" compradas se investirmos capital * pesos no preço de abertura (primeiro dia)
     preco_inicial = dados_precos.iloc[0]
     invest_inicial = pesos * capital
-    unidades = invest_inicial / preco_inicial.values  # quantity of each asset
-    # daily values per asset
-    valores_diarios = dados_precos * unidades  # DataFrame: cada coluna = valor desse ativo ao longo do tempo
+    unidades = invest_inicial / preco_inicial.values  
+    valores_diarios = dados_precos * unidades 
     serie_valor_total = valores_diarios.sum(axis=1)
 
     if rebalance:
@@ -271,9 +268,7 @@ def relatorio_completo(dados, ativos, capital=capital_inicial, n_portfs=10000, r
     print("Maior Risco - Sortino (ann):", sortino_ratio(retornos.dot(pesos_risco)))
     print("Maior Risco - Max Drawdown:", max_drawdown(serie_r / serie_r.iloc[0]))
 
-    # 12) Comparação com benchmark (opcional)
     if benchmark_series is not None:
-        # benchmark_series pode ser pd.Series alinhada com dados.index
         plt.figure(figsize=(10,6))
         (serie_s/serie_s.iloc[0]).plot(label='Melhor Sharpe (norm)')
         (serie_r/serie_r.iloc[0]).plot(label='Maior Risco (norm)')
@@ -283,7 +278,6 @@ def relatorio_completo(dados, ativos, capital=capital_inicial, n_portfs=10000, r
         plt.tight_layout()
         plt.show()
 
-    # Retorna objetos úteis
     out = {
         'pesos_sharpe': pesos_sharpe,
         'pesos_risco': pesos_risco,

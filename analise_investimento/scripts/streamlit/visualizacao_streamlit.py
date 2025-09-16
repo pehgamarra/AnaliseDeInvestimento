@@ -83,7 +83,6 @@ def estatisticas_descritivas(dados, ativos):
         'Assimetria': dados[ativos].skew(),
         'Curtose': dados[ativos].kurt()
     }).round(4)
-    # heatmap of stats (transposed)
     fig, ax = plt.subplots(figsize=(10,4))
     sns.heatmap(stats.T, annot=True, cmap="YlGnBu", fmt=".4f", ax=ax)
     ax.set_title("Estatísticas Descritivas")

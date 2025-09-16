@@ -64,7 +64,7 @@ def matriz_correlacao(dados, ativos):
 def grafico_risco_retorno(df_metricas):
     """Gráfico scatter Risco x Retorno"""
     df_plot = df_metricas.copy()
-    df_plot['Size'] = abs(df_plot['Sharpe']) + 0.1  # +0.1 para garantir tamanho mínimo
+    df_plot['Size'] = abs(df_plot['Sharpe']) + 0.1
     
     fig = px.scatter(
         df_plot,
