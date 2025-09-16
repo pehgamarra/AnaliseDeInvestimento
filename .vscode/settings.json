@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./analise_investimento/scripts",
+        "./analise_investimento/scripts/streamlit"
+    ]
+}
