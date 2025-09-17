@@ -131,7 +131,7 @@ if st.sidebar.button("Rodar Análise"):
     for i, ativo in enumerate(ativos):
         serie = plot_data[ativo].dropna()
         preco_atual = serie.iloc[-1]
-        preco_ant = serie.iloc[-2] if len(serie) > 1 else preco_atual
+        preco_ant = serie.iloc[-8] if len(serie) > 7 else serie.iloc[0]
         variacao = ((preco_atual / preco_ant) - 1) * 100 if preco_ant != 0 else 0
 
         cor = "green" if variacao >= 0 else "red"
@@ -144,7 +144,7 @@ if st.sidebar.button("Rodar Análise"):
                             padding: 18px; border-radius: 15px;
                             box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
                             text-align: center; color: white;">
-                    <h3 style="margin-bottom: 4px;">{ativo}</h3>
+                    <h3 style="margin-bottom: 0px;padding-left: 30px;">{ativo}</h3>
                     <p style="font-size: 22px; font-weight: bold; color:#8EC6FF; margin:2px;">
                         R$ {preco_atual:,.2f}
                     </p>
