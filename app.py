@@ -152,7 +152,7 @@ if st.sidebar.button("Rodar Análise"):
                         {icone} {variacao:+.2f}%
                     </p>
                     <p style="font-size: 12px; opacity: 0.7; margin:30;">
-                        Último fechamento
+                        7 dias atrás: R$ {preco_ant:,.2f}
                     </p>
                 </div>
                 <br>
