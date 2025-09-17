@@ -119,7 +119,10 @@ def fig_inicial_final_por_ativo(ativos, inicial_vals, final_vals, pesos, titulo=
     ax.bar(x + largura/2, final_vals, width=largura, label='Final', color='#005b96', edgecolor='black')
     for i, (ini, fin, p) in enumerate(zip(inicial_vals, final_vals, pesos)):
         pct = (fin/ini - 1)*100 if ini != 0 else np.nan
-        ax.text(i + largura/2, fin + 0.005 * np.max(final_vals), f"R$ {fin:,.0f}\n({pct:+.1f}%)", ha='center', va='bottom', fontsize=8)
+        ax.text(i - largura/2, ini + 0.005 * np.max(inicial_vals), 
+                f"R$ {ini:,.0f}", ha='center', va='bottom', fontsize=6)
+        ax.text(i + largura/2, fin + 0.005 * np.max(final_vals), 
+                f"R$ {fin:,.0f}\n({pct:+.1f}%)", ha='center', va='bottom', fontsize=10)
     ax.set_xticks(x)
     ax.set_xticklabels(ativos, rotation=45, ha='right')
     ax.set_title(titulo)
@@ -127,6 +130,7 @@ def fig_inicial_final_por_ativo(ativos, inicial_vals, final_vals, pesos, titulo=
     ax.legend()
     fig.tight_layout()
     return fig
+
 
 def plot_vol_rolling(serie_retorno, janela=30):
     vol = serie_retorno.rolling(janela).std() * np.sqrt(ANNUAL_DAYS)

@@ -116,13 +116,51 @@ if st.sidebar.button("Rodar Análise"):
             if substr_matches: ativos.append(substr_matches[0])
 
     ativos = list(dict.fromkeys(ativos)) or available_cols.copy()
-    st.write("Ativos selecionados:", ativos)
-
     # ---------- PREPARAÇÃO ----------
     plot_data = dados[ativos].apply(pd.to_numeric, errors='coerce')
     plot_data = plot_data.fillna(method='ffill').fillna(method='bfill')
     valid_ativos = list(plot_data.columns)
     retornos = plot_data[valid_ativos].pct_change().dropna()
+
+    
+    # ---------- VISUALIZAÇÃO DOS ATIVOS ----------
+    st.subheader("Ativos Selecionados")
+
+    cols = st.columns(3)
+
+    for i, ativo in enumerate(ativos):
+        serie = plot_data[ativo].dropna()
+        preco_atual = serie.iloc[-1]
+        preco_ant = serie.iloc[-2] if len(serie) > 1 else preco_atual
+        variacao = ((preco_atual / preco_ant) - 1) * 100 if preco_ant != 0 else 0
+
+        cor = "green" if variacao >= 0 else "red"
+        icone = "▲" if variacao >= 0 else "▼"
+
+        with cols[i % 3]:
+            st.markdown(
+                f"""
+                <div style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+                            padding: 18px; border-radius: 15px;
+                            box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+                            text-align: center; color: white;">
+                    <h3 style="margin-bottom: 4px;">{ativo}</h3>
+                    <p style="font-size: 22px; font-weight: bold; color:#8EC6FF; margin:2px;">
+                        R$ {preco_atual:,.2f}
+                    </p>
+                    <p style="font-size: 14px; margin:2px 0; color:{cor}; font-weight:600;">
+                        {icone} {variacao:+.2f}%
+                    </p>
+                    <p style="font-size: 12px; opacity: 0.7; margin:30;">
+                        Último fechamento
+                    </p>
+                </div>
+                <br>
+
+                """,
+                unsafe_allow_html=True
+            )
+
 
     # ---------- ABAS PRINCIPAIS ----------
     tab1, tab2, tab3, tab4 = st.tabs(["Exploração", "Risco & Retorno", "Simulação", "Conclusões"])
