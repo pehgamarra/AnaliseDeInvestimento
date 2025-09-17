@@ -7,3 +7,4 @@ scipy
 sgs
 requests
 streamlit
+plotly
