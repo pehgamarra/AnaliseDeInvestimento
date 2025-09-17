@@ -1,5 +1,5 @@
 import yfinance as yf
-from sgs import SGS
+import sgs
 import pandas as pd
 from datetime import datetime
 
