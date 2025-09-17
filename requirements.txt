@@ -6,3 +6,4 @@ seaborn
 scipy
 sgs
 requests
+streamlit
