@@ -80,7 +80,6 @@ if st.sidebar.button("Rodar Análise"):
         st.stop()
 
     # ---------- COLETA ----------
-    st.header("Coleta de Dados")
     coletor = ColetorDados()
     coletor.limpar()
     if acoes_sel: coletor.adicionar_ativos(acoes_sel)
@@ -96,8 +95,6 @@ if st.sidebar.button("Rodar Análise"):
     if dados.empty:
         st.error("Nenhum dado foi retornado.")
         st.stop()
-
-    st.success(f"Dados carregados: {dados.shape[0]} linhas x {dados.shape[1]} colunas")
 
     # ---------- MATCHING ----------
     available_cols = list(dados.columns)
